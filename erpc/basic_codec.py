@@ -14,11 +14,12 @@ class BasicCodec(Codec):
     ## Version of this codec.
     BASIC_CODEC_VERSION = 1
 
+    # When we have enum.Enum in CP, use msgInfo.type.value below
     def start_write_message(self, msgInfo):
         header = (self.BASIC_CODEC_VERSION << 24) \
                         | ((msgInfo.service & 0xff) << 16) \
                         | ((msgInfo.request & 0xff) << 8) \
-                        | (msgInfo.type.value & 0xff)
+                        | (msgInfo.type & 0xff)
         self.write_uint32(header)
         self.write_uint32(msgInfo.sequence)
 
